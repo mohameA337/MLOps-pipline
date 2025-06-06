@@ -10,14 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: cloning repo
+    - name: Cloning repo
       uses: actions/checkout@v4
 
     - name: Building image
       run: docker build -t mayoubo/titanciv:latest .
 
+    - name: Run FastAPI container for test
+      run: docker run -d -p 8000:8000 --name test_api mayoubo/titanciv:latest
+
+    - name: Validate FastAPI is running
+      run: |
+        sleep 5
+        curl --fail http://localhost:8000/docs > /dev/null
+      continue-on-error: false
+
+    - name: Stop and remove container
+      run: docker stop test_api && docker rm test_api
+
     - name: Docker login
-      run: docker login -u mayoubo -p ${{ secrets.DOCKER_HUB_TOKEN}}
+      run: docker login -u mayoubo -p ${{ secrets.DOCKER_HUB_TOKEN }}
 
     - name: Docker push
       run: docker push mayoubo/titanciv:latest

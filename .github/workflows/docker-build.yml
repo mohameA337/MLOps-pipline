@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: ⬇️ Checkout repository
+    - name: cloning repo
       uses: actions/checkout@v4
 
-    - name: 🐳 Build Docker image from GitHub repo
+    - name: Building image
       run: docker build -t mayoubo/titanciv:latest .
 
-    - name: 🔐 Login to DockerHub
-      run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u mayoubo --password-stdin
+    - name: Docker login
+      run: docker login -u mayoubo -p ${{ secrets.DOCKER_HUB_TOKEN}}
 
-    - name: 🚀 Push Docker image to DockerHub
+    - name: Docker push
       run: docker push mayoubo/titanciv:latest

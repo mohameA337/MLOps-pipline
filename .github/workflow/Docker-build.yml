@@ -1,0 +1,23 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: ⬇️ Checkout repository
+      uses: actions/checkout@v4
+
+    - name: 🐳 Build Docker image from GitHub repo
+      run: docker build -t mayoubo/titanciv:latest .
+
+    - name: 🔐 Login to DockerHub
+      run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u mayoubo --password-stdin
+
+    - name: 🚀 Push Docker image to DockerHub
+      run: docker push mayoubo/titanciv:latest

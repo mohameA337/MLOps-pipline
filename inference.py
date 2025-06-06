@@ -2,7 +2,7 @@ import onnxruntime as ort
 import numpy as np
 import os
 
-MODEL_PATH = r"C:\Users\moham\Documents\GitHub\MLOps-pipline\model\titanic_model.onnx"
+MODEL_PATH = "model/titanic_model.onnx"
 INPUT_FEATURES = ["Pclass", "Sex", "Age", "SibSp", "Parch", "Fare", "Embarked"]
 
 class TitanicONNXPredictor:
